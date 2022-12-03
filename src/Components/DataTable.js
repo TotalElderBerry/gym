@@ -11,6 +11,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import HeaderGroup from "./HeaderGroup"
+import ButtonContainer from "./ButtonContainer"
+
 function createData(
   id: number,
   fName: string,
@@ -32,46 +34,33 @@ function createMultipleData(){
 }
 
 const rows = createMultipleData()
-const columns = [
- 	{ field: 'id', headerName: 'ID', width: 90 },
-	{ field: 'fName', headerName: 'First name', width: 150 },
-  	{ field: 'lName', headerName: 'Last name', width: 150 },
-  	{ field: 'contactNumber', headerName: 'Contact Number', width: 150 },
-	{ field: 'membership', headerName: 'Membership', width: 130 },
-	{ field: 'timeIn', headerName: 'Time-In', width: 130 },
-	{ field: 'click-del', headerName: '', width: 50, sortable: false, renderCell: (params) => {
-      const onClick = (e) => {
-        const currentRow = params.row;
-        return alert(JSON.stringify(currentRow, null, 4));
-      };
-      
-      return (
-              <IconButton style={{paddingBottom: 0}} color="secondary" aria-label="delete">
-		        <DeleteIcon />
-		      </IconButton>
-		      
-		    
-      );
-	  }
 
-	},
-	{ field: 'click-edit', headerName: '', width: 50, sortable: false, renderCell: (params) => {
-      const onClick = (e) => {
-        const currentRow = params.row;
-        return alert(JSON.stringify(currentRow, null, 4));
-      };
-      
-      return (
-              <IconButton style={{paddingBottom: 0}} color="primary" aria-label="delete">
-		        <EditIcon />
-		      </IconButton>
-		      
-		    
-      );
-	  }
 
-	}
-]
+function generateColumns({buttons}){
+	console.log(buttons)
+	const columns = [
+	 	{ field: 'id', headerName: 'ID', width: 90 },
+		{ field: 'fName', headerName: 'First name', width: 150 },
+	  	{ field: 'lName', headerName: 'Last name', width: 150 },
+	  	{ field: 'contactNumber', headerName: 'Contact Number', width: 150 },
+		{ field: 'membership', headerName: 'Membership', width: 130 },
+		{ field: 'timeIn', headerName: 'Time-In', width: 130 },
+		{ field: 'click-del', headerName: '', width: 300, sortable: false, renderCell: (params) => {
+	      const onClick = (e) => {
+	        const currentRow = params.row;
+	        return alert(JSON.stringify(currentRow, null, 4));
+	      };
+	      
+	      	return (
+	      		<ButtonContainer buttons={buttons}/>	
+	      	)
+		  }
+
+		}
+	]
+	return columns
+}
+
 
 const groupStyle = {
 	padding: "10px"
@@ -89,18 +78,19 @@ const useStyles = makeStyles({
     }
 });
 
-export default function DataTable({lbl,component}) {
+export default function DataTable({lbl,count,component,buttons}) {
   const classes = useStyles();	
   return (
-   <div style={{ height: 670, minWidth: '70%' }}>
+   <div style={{ minWidth: '70%' }}>
    	  <HeaderGroup lbl={lbl} component={component} />
       <DataGrid
+      	autoHeight
       	className={classes.root}
       	disableColumnMenu
         rows={rows}
-        columns={columns}
-        pageSize={10}
-        rowsPerPage={[10]}
+        columns={generateColumns({buttons})}
+        pageSize={count}
+        rowsPerPage={[{count}]}
       />
     </div>
   );
