@@ -10,6 +10,7 @@ const Records = [
 	{id:9,firstName: 'PersonC', lastName: 'LastC', contactNumber: '091919191999', isMember: false},
 	{id:10,firstName: 'PersonD', lastName: 'LastD', contactNumber: '091919191999', isMember: false},
 	{id:11,firstName: 'PersonE', lastName: 'LastE', contactNumber: '091919191999', isMember: true},
+	{id:12,firstName: 'PersonE', lastName: 'LastE', contactNumber: '091919191999', isMember: true},
 ]
 
 export default Records
