@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import Link from '@material-ui/core/Link';
 import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
-export default function MemberRenewalForm() {
+export default function MemberRenewalForm({isMember}) {
   const [num, setNum] = React.useState(0);
   const nums = Array.from(Array(10).keys())
   console.log(nums)
@@ -42,7 +42,7 @@ export default function MemberRenewalForm() {
       }}
     >
       <Typography variant="h4" component="h4">
-        Monthly Membership
+        {isMember === 'true'?"Monthly Membership":"Daily Walk-In"}
       </Typography>
       <Typography variant="body2" gutterBottom>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
@@ -90,10 +90,10 @@ export default function MemberRenewalForm() {
       <Stack spacing={2}>
         <Stack direction="row" justifyContent="space-between" spacing={2}>
         <Typography variant="body2" sx={{color: '#93969a'}}>
-          Monthly Payment
+          {isMember === 'true'?"Monthly Payment":"Walk-In Payment"}
         </Typography>
         <Typography variant="body2" sx={{color: '#93969a'}}>
-          800
+          {isMember === 'true'?"800":"70"}
         </Typography>
       </Stack>
 
@@ -115,7 +115,7 @@ export default function MemberRenewalForm() {
           Total 
         </Typography>
         <Typography variant="body2" sx={{color: '#93969a'}}>
-          800
+          {isMember === 'true'?"800":"70"}
         </Typography>
       </Stack>
       </Stack>

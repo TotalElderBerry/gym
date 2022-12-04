@@ -12,7 +12,7 @@ function IconLabelButtons() {
     <Stack direction="row" spacing={2}>
 	  <TextField id="standard-basic" label="Search" variant="standard" />	
       
-      <Button variant="outlined" startIcon={<AddIcon />}>
+      <Button variant="outlined" component={Link} href="/add-member"  startIcon={<AddIcon />}>
         Add Member
       </Button>
     </Stack>

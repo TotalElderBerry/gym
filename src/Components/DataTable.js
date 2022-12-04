@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import HeaderGroup from "./HeaderGroup"
 import ButtonContainer from "./ButtonContainer"
+import Grid from '@mui/material/Grid';
 
 function createData(
   id: number,
@@ -81,7 +82,7 @@ const useStyles = makeStyles({
 export default function DataTable({lbl,count,component,buttons}) {
   const classes = useStyles();	
   return (
-   <div style={{ minWidth: '70%' }}>
+   <div style={{ minWidth: '100%' }}>
    	  <HeaderGroup lbl={lbl} component={component} />
       <DataGrid
       	autoHeight
