@@ -130,7 +130,7 @@ export default function MemberRenewalForm({isMember}) {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
         </Typography>
     </Box>
-    <Button disableElevation component={Link} to="/renew" sx={{ width: "20%" }} variant="contained">Renew</Button>    
+    <Button disableElevation component={Link} to="/renew" sx={{ width: "20%" }} variant="contained">Pay</Button>    
     </Stack>
     </Paper>
 
