@@ -8,6 +8,8 @@ import SignUpPage from "./Pages/SignUpPage"
 import HomePage from "./Pages/HomePage"
 import AddMemberPage from "./Pages/AddMemberPage"
 import MemberFormPage from "./Pages/MemberFormPage"
+import MemberRenewPage from "./Pages/MemberRenewPage"
+
 import NavBar from './Components/NavBar';
 import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 
@@ -29,10 +31,11 @@ function App() {
 
         <Routes>
             <Route exact path='/' element={<HomePage />}></Route>
-            <Route exact path='/member-lists' element={<AddMemberPage />}></Route>
+            <Route exact path='/members' element={<AddMemberPage />}></Route>
             <Route exact path='/login' element={<LoginPage />}></Route>
             <Route exact path='/signup' element={<SignUpPage />}></Route>
             <Route exact path='/add-member' element={<MemberFormPage />}></Route>
+            <Route exact path='/renew' element={<MemberRenewPage />}></Route>
 
         </Routes>
       </Router>

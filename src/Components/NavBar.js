@@ -24,6 +24,25 @@ const iconsArray = [
 
 ]
 
+const routes = [
+	{
+		name: "Dashboard",
+		link: "/"
+	},
+	{
+		name: "Members",
+		link: "/members"
+	},
+	{
+		name: "Requests",
+		link: "/requests"
+	},
+	{
+		name: "Revenue",
+		link: "/"
+	}
+]
+
 export default function NavBar({children}) {
   return (
     <Box sx={{ display: 'flex' }}>
@@ -65,8 +84,7 @@ export default function NavBar({children}) {
           },
           [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box', height:'100%', zIndex:'-1' },
         }}
-        
-         BackdropProps={{ invisible: true }}
+        style={{ zIndex: 1251 }}
         variant="permanent"
         anchor="left"
       >
@@ -79,13 +97,13 @@ export default function NavBar({children}) {
       >
         <Toolbar />
         <List>
-          {['Dashboard', 'Members', 'Requests', 'Drafts'].map((text, index) => (
-            <ListItem flexDirection="column" key={text} disablePadding component={Link} href="/member-lists">
+          {routes.map((text, index) => (
+            <ListItem flexdirection="column" component={Link} href={text.link} key={index} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={text.name} />
               </ListItemButton>
             </ListItem>
 
