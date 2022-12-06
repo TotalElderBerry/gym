@@ -10,6 +10,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
 import { Line } from "react-chartjs-2";
 import DataTable from "../Components/DataTable"
+import records from '../utils/records.js'
 import TextField from '@mui/material/TextField';
 
 function ButtonGroup(){
@@ -116,7 +117,7 @@ export default function RevenuePage () {
 				<AnalyticsCard />
 			</Stack>
 			<Stack sx={{marginTop: 10}}>
-			<DataTable lbl={"Recent Transactions"} count={5} component=<ButtonGroup /> />
+			<DataTable lbl={"Recent Transactions"} count={5} component=<ButtonGroup /> record={records}/>
 			</Stack>
 		</Stack>
 	)
