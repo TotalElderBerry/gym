@@ -39,7 +39,7 @@ const routes = [
 	},
 	{
 		name: "Revenue",
-		link: "/"
+		link: "/revenue"
 	}
 ]
 

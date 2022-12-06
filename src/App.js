@@ -10,6 +10,8 @@ import AddMemberPage from "./Pages/AddMemberPage"
 import MemberFormPage from "./Pages/MemberFormPage"
 import MemberRenewPage from "./Pages/MemberRenewPage"
 import WalkInFormPage from "./Pages/WalkInFormPage"
+import RevenuePage from "./Pages/RevenuePage"
+
 import NavBar from './Components/NavBar';
 import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 
@@ -37,6 +39,7 @@ function App() {
             <Route exact path='/add-member' element={<MemberFormPage />}></Route>
             <Route exact path='/renew' element={<MemberRenewPage />}></Route>
             <Route exact path='/walkin-payment' element={<WalkInFormPage />}></Route>
+            <Route exact path='/revenue' element={<RevenuePage />}></Route>
         </Routes>
       </Router>
       </NavBar>
