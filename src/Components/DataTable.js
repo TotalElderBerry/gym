@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState, useEffect} from 'react';
 
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -13,6 +13,29 @@ import { makeStyles } from '@material-ui/core/styles';
 import HeaderGroup from "./HeaderGroup"
 import ButtonContainer from "./ButtonContainer"
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+export default function DataTable({lbl,count,component,buttons,record}) {
+  const classes = useStyles();	
+  const [records,setRecords] = useState(record);
+  return (
+   <div style={{ minWidth: '100%' }}>
+  
+   	  <HeaderGroup lbl={lbl} component={component} />
+      <DataGrid
+      	autoHeight
+      	className={classes.root}
+      	disableColumnMenu
+        rows={records}
+        getRowId={(row) => row.id}	
+        columns={generateColumns(records,{buttons})}
+        pageSize={count}
+        rowsPerPage={[{count}]}
+      />
+    </div>
+  );
+}
+
 
 function createData(
   id: number,
@@ -37,14 +60,20 @@ function createMultipleData(){
 const rows = createMultipleData()
 
 
-function generateColumns({buttons}){
-	console.log(buttons)
+function generateColumns(records,{buttons}){
+	const keys = Object.keys(records[0])
+
 	const columns = [
 	 	{ field: 'id', headerName: 'ID', width: 90 },
-		{ field: 'fName', headerName: 'First name', width: 150 },
-	  	{ field: 'lName', headerName: 'Last name', width: 150 },
-	  	{ field: 'contactNumber', headerName: 'Contact Number', width: 150 },
-		{ field: 'membership', headerName: 'Membership', width: 130 },
+		{ field: keys[1], headerName: 'First name', width: 150 },
+	  	{ field: keys[2], headerName: 'Last name', width: 150 },
+	  	{ field: keys[3], headerName: 'Contact Number', width: 150 },
+		{ field: keys[4], headerName: 'Membership', width: 130, renderCell: (params) => {
+	      	console.log(params)
+	      	return (
+	      		<LabelCard isMember={params.row.isMember} />	
+	      	)
+		  } },
 		{ field: 'timeIn', headerName: 'Time-In', width: 130 },
 		{ field: 'click-del', headerName: '', width: 300, sortable: false, renderCell: (params) => {
 	      const onClick = (e) => {
@@ -79,20 +108,24 @@ const useStyles = makeStyles({
     }
 });
 
-export default function DataTable({lbl,count,component,buttons}) {
-  const classes = useStyles();	
-  return (
-   <div style={{ minWidth: '100%' }}>
-   	  <HeaderGroup lbl={lbl} component={component} />
-      <DataGrid
-      	autoHeight
-      	className={classes.root}
-      	disableColumnMenu
-        rows={rows}
-        columns={generateColumns({buttons})}
-        pageSize={count}
-        rowsPerPage={[{count}]}
-      />
-    </div>
-  );
+
+
+function LabelCard({isMember}){
+	const st = isMember?'primary.main':'#ffc300'
+	console.log(st)
+	return(
+		<Stack sx={{
+			width: '90%',
+			height: '80%',
+			backgroundColor: st,
+			direction: 'row',
+			justifyContent: 'center',
+			alignItems: 'center',
+			borderRadius: 5
+		}}>
+			<Typography variant="body1" color="white" sx={{fontWeight: 'bold'}}>
+		  		{isMember === true?"Member":"Daily"}
+		  	</Typography>
+		</Stack>
+	)
 }

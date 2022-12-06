@@ -1,3 +1,5 @@
+import {useState} from 'react'
+
 import TextField from '@mui/material/TextField';
 import DataTable from "../Components/DataTable"
 import RevenueCard from "../Components/RevenueCard"
@@ -12,12 +14,16 @@ import Grid from '@mui/material/Grid';
 
 import Link from '@material-ui/core/Link';
 
+import records from '../utils/records.js'
 function ButtonGroup(){
 	return (
 	    		<TextField id="standard-basic" label="Search" variant="standard" />	
   	);
 }
 
+function getRecords(){
+	return [...records]
+}
 
 
 const buttonArray = [
@@ -62,9 +68,9 @@ export default function HomePage() {
 	        </Grid>
 				<Grid item lg={9} md={8}>	
 					<section style={tableStyle}>
-						<DataTable lbl={"Queue"} count={5} component=<ButtonGroup /> buttons={buttonArrayQueue}/>
+						<DataTable lbl={"Queue"} count={5} component=<ButtonGroup /> buttons={buttonArrayQueue} record={records.filter((r)=> r.isMember === false)}/>
 							<Toolbar />
-						<DataTable lbl={"Time In"} count={10} component=<ButtonGroup /> />
+						<DataTable lbl={"Time In"} count={10} component=<ButtonGroup /> record={records}/>
 					</section>
 		        </Grid>
 			
