@@ -1,4 +1,4 @@
-import DataTable from "../Components/DataTable"
+import DataTable from "../../Components/DataTable"
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,7 +7,8 @@ import Stack from '@mui/material/Stack';
 import EditIcon from '@mui/icons-material/Edit';
 import Link from '@material-ui/core/Link';
 import AddIcon from '@mui/icons-material/Add';
-import records from '../utils/records.js'
+import records from '../../utils/records.js'
+import MemberView from "../../Components/MemberView"
 
 function IconLabelButtons() {
   return (
@@ -38,7 +39,7 @@ export default function AddMemberPage() {
 	return(
 		<div>
 			<section style={tableStyle}>
-				<DataTable lbl={"Current Members"} component=<IconLabelButtons /> record={records.filter((r)=> r.isMember === true)} buttons={buttonArrayQueue}/>
+				<MemberView />
 			</section>
 		</div>
 	)

@@ -1,4 +1,4 @@
-import MemberRenewalForm from "../Components/MemberRenewalForm";
+import MemberRenewalForm from "../../Components/MemberRenewalForm";
 
 export default function MemberFormPage(){
 	return(

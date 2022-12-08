@@ -1,4 +1,4 @@
-import AddMemberForm from "../Components/AddMemberForm";
+import AddMemberForm from "../../Components/AddMemberForm";
 
 export default function MemberFormPage(){
 	return(

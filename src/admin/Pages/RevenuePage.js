@@ -1,4 +1,4 @@
-import AnalyticsCard from "../Components/AnalyticsCard";
+import AnalyticsCard from "../../Components/AnalyticsCard";
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
@@ -8,10 +8,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Paper from '@mui/material/Paper';
-import { Line } from "react-chartjs-2";
-import DataTable from "../Components/DataTable"
-import records from '../utils/records.js'
+import DataTable from "../../Components/DataTable"
+import records from '../../utils/records.js'
 import TextField from '@mui/material/TextField';
+import MemberView from "../../Components/MemberView"
 
 function ButtonGroup(){
 	return (
@@ -52,33 +52,7 @@ function ButtonGroup(){
   }
 ];
 
-function Graph(){
 
-
-	return(
-		 <div className="chart-container">
-		      <h2 style={{ textAlign: "center" }}>Line Chart</h2>
-		      <Line
-		         data={{
-       labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday","Sunday"],
-       datasets: [
-          {
-              label: "# of Calories Lost",
-             
-              data: [200, 300, 1300, 520, 2000, 350,150],
-              fill: false,
-              borderWidth:4,
-              backgroundColor: "rgb(255, 99, 132)",
-              borderColor:'green',
-              responsive:true
-            },
-          ],
-        }}
-		      />
-	    </div>
-	)
-
-}
 
 function BasicSelect() {
   const [age, setAge] = React.useState('Daily');
@@ -117,7 +91,7 @@ export default function RevenuePage () {
 				<AnalyticsCard />
 			</Stack>
 			<Stack sx={{marginTop: 10}}>
-			<DataTable lbl={"Recent Transactions"} count={5} component=<ButtonGroup /> record={records}/>
+			 <MemberView />
 			</Stack>
 		</Stack>
 	)

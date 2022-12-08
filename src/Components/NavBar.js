@@ -17,6 +17,8 @@ import {Badge, AccountCircle } from '@mui/icons-material';
 import {IconButton} from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Link from '@material-ui/core/Link';
+
+import { Outlet } from "react-router-dom"
 const drawerWidth = 200;
 
 const iconsArray = [
@@ -27,19 +29,19 @@ const iconsArray = [
 const routes = [
 	{
 		name: "Dashboard",
-		link: "/"
+		link: "/admin"
 	},
 	{
 		name: "Members",
-		link: "/members"
+		link: "/admin/members"
 	},
 	{
 		name: "Requests",
-		link: "/requests"
+		link: "/admin/requests"
 	},
 	{
 		name: "Revenue",
-		link: "/revenue"
+		link: "/admin/revenue"
 	}
 ]
 
