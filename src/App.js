@@ -11,6 +11,7 @@ import MemberFormPage from "./admin/Pages/MemberFormPage"
 import MemberRenewPage from "./admin/Pages/MemberRenewPage"
 import WalkInFormPage from "./admin/Pages/WalkInFormPage"
 import RevenuePage from "./admin/Pages/RevenuePage"
+import MembershipPlanPage from "./admin/Pages/MembershipPlanPage"
 
 import NavbarLayout from './Components/NavbarLayout';
 
@@ -45,7 +46,7 @@ function App() {
         <Route exact path='/login' element={<UserLogin />}></Route>
         <Route exact path='/forgot' element={<ForgotPassword />}></Route>
         <Route exact path='/form' element={<UserWalkInFormPage />}></Route>
-
+        <Route exact path='/' element={<MembershipPlanPage />}></Route>
       </Routes>
     </Router>
 
@@ -56,7 +57,7 @@ function App() {
           <Route element={<NavbarLayout />}>
             <Route exact path='/admin/' element={<HomePage />}></Route>
             <Route exact path='/admin/members' element={<AddMemberPage />}></Route>
-            
+            <Route exact path='/admin/select' element={<MembershipPlanPage />}></Route>
             <Route exact path='/admin/add-member' element={<MemberFormPage />}></Route>
             <Route exact path='/admin/renew' element={<MemberRenewPage />}></Route>
             <Route exact path='/admin/walkin-payment' element={<WalkInFormPage />}></Route>

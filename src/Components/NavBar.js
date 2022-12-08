@@ -18,6 +18,9 @@ import {IconButton} from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import Link from '@material-ui/core/Link';
 
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import NotifBar from './NotifBar'
 import { Outlet } from "react-router-dom"
 const drawerWidth = 200;
 
@@ -36,16 +39,30 @@ const routes = [
 		link: "/admin/members"
 	},
 	{
-		name: "Requests",
-		link: "/admin/requests"
-	},
-	{
 		name: "Revenue",
 		link: "/admin/revenue"
 	}
 ]
 
 export default function NavBar({children}) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [notifanchorEl, setNotifAnchorEl] = React.useState(null);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleNotifMenu = (event) => {
+    setNotifAnchorEl(event.currentTarget);
+  };
+
+  const handleNotifClose = () => {
+    setNotifAnchorEl(null);
+  };
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -60,6 +77,7 @@ export default function NavBar({children}) {
           <IconButton
               size="large"
               aria-label="show 17 new notifications"
+              onClick={handleNotifMenu}
               color="inherit"
             >
                 <NotificationsIcon color="primary"/>
@@ -70,9 +88,29 @@ export default function NavBar({children}) {
               aria-label="account of current user"
               aria-haspopup="true"
               color="inherit"
+              onClick={handleMenu}
             >
               <AccountCircle color="primary"/>
             </IconButton>
+             <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>My account</MenuItem>
+              </Menu>
+              <NotifBar handleClose={handleNotifClose} anchorEl={notifanchorEl} />
             </Box>
         </Toolbar>
       </AppBar>

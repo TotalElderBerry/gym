@@ -6,6 +6,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import InsightsIcon from '@mui/icons-material/Insights';
+import Link from '@material-ui/core/Link';
+import Grid from '@mui/material/Grid';
 export default function RevenueCard() {
   return (
     <Box
@@ -45,10 +47,13 @@ export default function RevenueCard() {
                       height: '100%'}}/>
               </Box>
             </Stack>
+
+            
+
             <Stack spacing={1} flexGrow="1">
               <Divider sx={{bgcolor: 'white'}}/>
               <Stack direction="row" justifyContent="flex-end" alignItems="flex-end">
-                 <Typography variant="body2" color="white">
+                 <Typography component={Link} href="/admin/revenue" variant="body2" color="white">
                     View Full Details
                   </Typography>
               </Stack>

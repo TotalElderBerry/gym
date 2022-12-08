@@ -15,15 +15,29 @@ import ButtonContainer from "./ButtonContainer"
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
 import Link from '@material-ui/core/Link';
 import record from '../utils/records.js'
+import translateDate from '../Controllers/translateDate'
+function IconLabelButtons() {
+  return (
+    <Stack direction="row" spacing={2}>
+	  <TextField id="standard-basic" label="Search" variant="standard" />	
+      
+      <Button variant="outlined" component={Link} href="/admin/select"  startIcon={<AddIcon />}>
+        Add Member
+      </Button>
+    </Stack>
+  );
+}
+
 export default function MemberView() {
   const classes = useStyles();	
   const [records,setRecords] = useState(record.filter((p)=>{
   	// {...p,status: 'active',startDate: '11/11/11',expireDate: '12/11/11'}}
   	p.status = 'active';
-  	p.startDate = '11/11/11';
-  	p.expireDate = '12/11/11'
+  	p.startDate = translateDate('11/11/11');
+  	p.expireDate = translateDate('12/11/11')
   	if(p.id % 2 === 0){
 	  	p.status = 'inactive';
 	  	p.startDate = '';
@@ -34,7 +48,7 @@ export default function MemberView() {
   return (
    <div style={{ minWidth: '100%' }}>
  
-   	  <HeaderGroup lbl={"Members"} component=<TextField id="standard-basic" label="Search" variant="standard" />	 />
+   	  <HeaderGroup lbl={"Members"} component=<IconLabelButtons />  />
       <DataGrid
       	autoHeight
       	className={classes.root}
@@ -85,7 +99,11 @@ function generateColumns(records,setRecords){
 	      		<LabelCard isMember={params.row.isMember} />	
 	      	)
 		  } },
-		{ field: 'status', headerName: 'Status', width: 130},
+		{ field: 'status', headerName: 'Status', width: 130, align:'center', renderCell: (params) => {
+			return(
+				<TextColor isActive={params.row.status === "active"?true:false} />
+			)
+		}},
 		{ field: 'startDate', headerName: 'Start Date', width: 150 },
 		{ field: 'expireDate', headerName: 'End Date', width: 150 },
 		{ field: 'click-edit', headerName: '', width: 120, sortable: false, renderCell: (params) => {
@@ -129,6 +147,13 @@ const useStyles = makeStyles({
     }
 });
 
+function TextColor({isActive}){
+	return(
+			<Typography variant="body1" color={isActive?"#00A4A6":"#DC2A2A"} sx={{fontWeight: 'bold'}}>
+		  		{isActive === true?"Active":"Inactive"}
+		  	</Typography>
+	)
+}
 
 
 function LabelCard({isMember}){

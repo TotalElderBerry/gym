@@ -10,23 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import records from '../../utils/records.js'
 import MemberView from "../../Components/MemberView"
 
-function IconLabelButtons() {
-  return (
-    <Stack direction="row" spacing={2}>
-	  <TextField id="standard-basic" label="Search" variant="standard" />	
-      
-      <Button variant="outlined" component={Link} href="/add-member"  startIcon={<AddIcon />}>
-        Add Member
-      </Button>
-    </Stack>
-  );
-}
 
-const buttonArrayQueue = [
-		<Button variant="contained" component={Link} href="/renew" startIcon={<EditIcon />} >
-        Renew
-      </Button>
-]
 
 export default function AddMemberPage() {
 	const tableStyle = {

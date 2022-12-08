@@ -1,70 +1,57 @@
+import records from "./records"
+import translateDate from '../Controllers/translateDate'
+
 const Transactions = [
 	{
 		id: 1,
-		user:{
-			id:1,firstName: 'Brian', 
-			lastName: 'Lisondra', 
-			contactNumber: '091919191999'
-		},
+		user:records[0],
 		payment: {
 			type: "daily",
 			date: "11/11/11",
 		},
-		amount: "700"
+		amount: "70"
 	},
 	{
 		id: 2,
-		user:{
-			id:1,firstName: 'Brian', 
-			lastName: 'Lisondra', 
-			contactNumber: '091919191999'
-		},
+		user: records[1],
 		payment: {
-			type: "daily",
-			date: "11/11/11",
+			type: "monthly",
+			date: "01/11/11",
 		},
 		amount: "700"
 	},
 	{
 		id: 3,
-		user:{
-			id:1,firstName: 'Brian', 
-			lastName: 'Lisondra', 
-			contactNumber: '091919191999'
-		},
+		user: records[2],
 		payment: {
-			type: "daily",
-			date: "11/11/11",
+			type: "monthly",
+			date: "3/11/11",
 		},
 		amount: "700"
 	},
 	{
 		id: 4,
-		user:{
-			id:1,firstName: 'Brian', 
-			lastName: 'Lisondra', 
-			contactNumber: '091919191999'
-		},
+		user:records[3],
 		payment: {
 			type: "daily",
-			date: "11/11/11",
+			date: "8/11/11",
 		},
-		amount: "700"
+		amount: "70"
 	},
 	{
 		id: 5,
-		user:{
-			id:1,firstName: 'Brian', 
-			lastName: 'Lisondra', 
-			contactNumber: '091919191999'
-		},
+		user:records[4],
 		payment: {
-			type: "daily",
+			type: "monthly",
 			date: "11/11/11",
 		},
 		amount: "700"
 	},
 
 ]
+
+Transactions.map((t)=>{
+	t.payment.date = translateDate(t.payment.date)
+})
 
 export default Transactions

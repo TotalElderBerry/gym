@@ -12,7 +12,7 @@ import DataTable from "../../Components/DataTable"
 import records from '../../utils/records.js'
 import TextField from '@mui/material/TextField';
 import MemberView from "../../Components/MemberView"
-
+import TransactionsView from "../../Components/TransactionsView"
 function ButtonGroup(){
 	return (
 	    		<TextField id="standard-basic" label="Search" variant="standard" />	
@@ -78,6 +78,7 @@ function BasicSelect() {
   );
 }
 
+
 export default function RevenuePage () {
 	return(
 		<Stack spacing={2}>
@@ -91,7 +92,7 @@ export default function RevenuePage () {
 				<AnalyticsCard />
 			</Stack>
 			<Stack sx={{marginTop: 10}}>
-			 <MemberView />
+			 <TransactionsView />
 			</Stack>
 		</Stack>
 	)

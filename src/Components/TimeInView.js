@@ -70,12 +70,13 @@ function generateColumns(records,setRecords){
 		{ field: keys[1], headerName: 'First name', width: 150 },
 	  	{ field: keys[2], headerName: 'Last name', width: 150 },
 	  	{ field: keys[3], headerName: 'Contact Number', width: 150 },
-	  	{ field: 'timein', headerName: 'Time In', width: 150 },
-		{ field: keys[4], headerName: 'Membership', width: 130, renderCell: (params) => {
+	  	{ field: keys[4], headerName: 'Membership', width: 130, renderCell: (params) => {
 	      	return (
 	      		<LabelCard isMember={params.row.isMember} />	
 	      	)
 		  } },
+		
+	  	{ field: 'timein', headerName: 'Time In', width: 150 },
 		
 	]
 	return columns
