@@ -16,28 +16,61 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Link from '@material-ui/core/Link';
+import Modal from '@mui/material/Modal';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import record from '../utils/records.js'
 
 export default function MemberView() {
   const classes = useStyles();	
   const [records,setRecords] = useState(record.filter((p)=>p.isMember === false));
+  const [open, setOpen] = useState(false);
+  const [currentRow, setCurrentRow] = useState(-1);
+  const [selectedRecord, setSelectedRecord] = useState("");
+  const [query,setQuery] = useState("")
+  
+  const handleOpen = (row,name) => {
+  	setSelectedRecord(name)
+  	setCurrentRow(row)
+  	setOpen(true);
+  }
+  const handleClose = () => setOpen(false);
+
+	function handleChange(e){
+		e.preventDefault()
+		setQuery(e.target.value)
+
+		const res = records.filter(rec => {
+			if(query === " ") setRecords(record)
+			return rec.firstName.toLowerCase().includes(query.toLowerCase()) 
+			
+		})
+		if(res.length != 0) setRecords(res)
+
+		console.log(res)
+	}
+
+
   return (
    <div style={{ minWidth: '100%' }}>
  
-   	  <HeaderGroup lbl={"Queue"} component=<TextField id="standard-basic" label="Search" variant="standard" />	 />
+   	  <HeaderGroup lbl={"Queue"} component=<TextField id="standard-basic" label="Search" variant="standard" value={query} onChange={handleChange}/>	 />
+      {console.log(query)}
       <DataGrid
       	autoHeight
       	className={classes.root}
       	disableColumnMenu
         rows={records}
         getRowId={(row) => row.id}	
-        columns={generateColumns(records,setRecords)}
+        columns={generateColumns(records,setRecords,handleOpen,handleClose)}
         pageSize={records.length}
         rowsPerPage={[records.length]}
       />
+      <BasicModal open={open} handleOpen={handleOpen} handleClose={handleClose} name={selectedRecord} records={records} setRecords={setRecords} cid={currentRow}/>
     </div>
   );
 }
+
 
 
 function createData(
@@ -50,19 +83,62 @@ function createData(
   return { id, fName, lName, contactNumber, membership };
 }
 
-function createMultipleData(){
-	let data = [];
-	for(let i = 0; i < 15; i++){
-		data.push(createData(i,'Jack', 'Sparrow', '091919191999', 'Monthly Member', '12:09 am'))
-	}
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 700,
+  height: 400,
+  bgcolor: 'background.paper',
+  boxShadow: 24,
+  p: 8,
+  borderRadius: "4px"
+};
 
-	return data
+function BasicModal({open, handleOpen, handleClose, name ,records,setRecords,cid}) {
+ 
+  return (
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+        <Stack direction="column" spacing={2} justifyContent="space-between" sx={{height: "100%"}}>
+          <Typography id="modal-modal-title" variant="h5" component="h2" align="center" sx={{fontWeight: "800"}}>
+            Delete Customer
+          </Typography>
+          <Stack direction="row" sx={{ mt: 2 }} spacing={1} justifyContent="center" alignItems="center">
+          <Typography id="modal-modal-description"align="center">
+            Are you sure you want to delete
+          </Typography>
+          <Typography sx={{fontWeight: "500"}}> {name} </Typography>
+          <Typography> ? </Typography>
+           </Stack>
+           <Alert  severity="error">
+	        <AlertTitle>Warning</AlertTitle>
+	        By doing this, it will remove the customer in the queue. <strong>It cannot be undone!</strong>
+	      </Alert>
+	      <Stack direction="row" spacing={1} justifyContent="center">
+				  <Button onClick={handleClose} variant="contained" sx={{width: "200px", bgcolor: "#627d98"}}>
+			        Cancel
+			      </Button>
+			      <Button onClick={()=>{removeItem(records,setRecords,cid,handleClose)}} variant="contained" color="error" sx={{width: "200px"}}>
+			        Delete
+			      </Button>
+	      </Stack>
+	      </Stack>
+        </Box>
+      </Modal>
+    </div>
+  );
 }
 
-const rows = createMultipleData()
 
-
-function generateColumns(records,setRecords){
+function generateColumns(records,setRecords,handleOpen,handleClose){
 	const keys = Object.keys(records[0])
 
 	const columns = [
@@ -77,14 +153,7 @@ function generateColumns(records,setRecords){
 		  } },
 		{ field: 'click-edit', headerName: '', width: 130, sortable: false, renderCell: (params) => {
 	      const onClick = (e) => {
-	      	if(records.length > 1){
-	      		        const currentRow = params.row;
-	      		        const eq = records.filter((d)=>{
-	      		        	return d.id !== currentRow.id
-	      		        })
-	      		        console.log(eq)
-	      		        setRecords(eq)
-	      		}
+	      	
 	      };
 	      
 	      	return (
@@ -98,14 +167,10 @@ function generateColumns(records,setRecords){
 
 		{ field: 'click-del', headerName: '', width: 120, sortable: false, renderCell: (params) => {
 	      const onClick = (e) => {
-	      	if(records.length > 1){
-	      		        const currentRow = params.row;
-	      		        const eq = records.filter((d)=>{
-	      		        	return d.id !== currentRow.id
-	      		        })
-	      		        console.log(eq)
-	      		        setRecords(eq)
-	      		}
+		  
+
+	      	handleOpen(params.row.id,params.row.firstName + " "+params.row.lastName)
+	      	console.log("clicked")
 	      };
 	      
 	      	return (
@@ -119,6 +184,18 @@ function generateColumns(records,setRecords){
 		
 	]
 	return columns
+}
+
+function removeItem(records,setRecords,cid,handleClose){
+	if(records.length > 1){
+	      		        // const currentRow = params.row;
+	      		        const eq = records.filter((d)=>{
+	      		        	return d.id !== cid
+	      		        })
+	      		        console.log(eq)
+	      		        setRecords(eq)
+	      		}
+	 handleClose()
 }
 
 
