@@ -28,7 +28,7 @@ export default function MemberView() {
   const [currentRow, setCurrentRow] = useState(-1);
   const [selectedRecord, setSelectedRecord] = useState("");
   const [query,setQuery] = useState("")
-  
+  const [searchedItems, setSearchedItems] = useState(record.filter((p)=>p.isMember === false))
   const handleOpen = (row,name) => {
   	setSelectedRecord(name)
   	setCurrentRow(row)
@@ -41,13 +41,16 @@ export default function MemberView() {
 		setQuery(e.target.value)
 
 		const res = records.filter(rec => {
-			if(query === " ") setRecords(record)
-			return rec.firstName.toLowerCase().includes(query.toLowerCase()) 
-			
-		})
-		if(res.length != 0) setRecords(res)
+			if(e.target.value === "") {
+				console.log("i am r")
 
-		console.log(res)
+				return records
+			}
+			return rec.firstName.toLowerCase().includes(query.toLowerCase()) 
+		})
+		if(e.target.value === "" && res.length !== 0) setSearchedItems(records)
+		if(res.length !== 0) setSearchedItems(res)
+		if(res.length === 0) setSearchedItems([])
 	}
 
 
@@ -60,13 +63,13 @@ export default function MemberView() {
       	autoHeight
       	className={classes.root}
       	disableColumnMenu
-        rows={records}
+        rows={searchedItems}
         getRowId={(row) => row.id}	
         columns={generateColumns(records,setRecords,handleOpen,handleClose)}
         pageSize={records.length}
         rowsPerPage={[records.length]}
       />
-      <BasicModal open={open} handleOpen={handleOpen} handleClose={handleClose} name={selectedRecord} records={records} setRecords={setRecords} cid={currentRow}/>
+      <BasicModal open={open} handleOpen={handleOpen} handleClose={handleClose} name={selectedRecord} records={records} setRecords={setRecords} cid={currentRow} setSearchedItems={setSearchedItems}/>
     </div>
   );
 }
@@ -96,7 +99,7 @@ const style = {
   borderRadius: "4px"
 };
 
-function BasicModal({open, handleOpen, handleClose, name ,records,setRecords,cid}) {
+function BasicModal({open, handleOpen, handleClose, name ,records,setRecords,cid,setSearchedItems}) {
  
   return (
     <div>
@@ -126,7 +129,7 @@ function BasicModal({open, handleOpen, handleClose, name ,records,setRecords,cid
 				  <Button onClick={handleClose} variant="contained" sx={{width: "200px", bgcolor: "#627d98"}}>
 			        Cancel
 			      </Button>
-			      <Button onClick={()=>{removeItem(records,setRecords,cid,handleClose)}} variant="contained" color="error" sx={{width: "200px"}}>
+			      <Button onClick={()=>{removeItem(records,setRecords,cid,handleClose,setSearchedItems)}} variant="contained" color="error" sx={{width: "200px"}}>
 			        Delete
 			      </Button>
 	      </Stack>
@@ -139,61 +142,65 @@ function BasicModal({open, handleOpen, handleClose, name ,records,setRecords,cid
 
 
 function generateColumns(records,setRecords,handleOpen,handleClose){
-	const keys = Object.keys(records[0])
-
-	const columns = [
-	 	{ field: 'id', headerName: 'ID', width: 90 },
-		{ field: keys[1], headerName: 'First name', width: 150 },
-	  	{ field: keys[2], headerName: 'Last name', width: 150 },
-	  	{ field: keys[3], headerName: 'Contact Number', width: 150 },
-		{ field: keys[4], headerName: 'Membership', width: 130, renderCell: (params) => {
-	      	return (
-	      		<LabelCard isMember={params.row.isMember} />	
-	      	)
-		  } },
-		{ field: 'click-edit', headerName: '', width: 130, sortable: false, renderCell: (params) => {
-	      const onClick = (e) => {
-	      	
-	      };
-	      
-	      	return (
-	      		<Button variant="contained" component={Link} href="/admin/walkin-payment" startIcon={<EditIcon />} >
-		        Confirm
-		      </Button>
-	      	)
-		  }
-
-		},
-
-		{ field: 'click-del', headerName: '', width: 120, sortable: false, renderCell: (params) => {
-	      const onClick = (e) => {
-		  
-
-	      	handleOpen(params.row.id,params.row.firstName + " "+params.row.lastName)
-	      	console.log("clicked")
-	      };
-	      
-	      	return (
-	      		<Button variant="outlined" onClick={onClick} startIcon={<DeleteIcon />} color="error">
-			        Delete
-			    </Button>
-	      	)
-		  }
-
-		},
-		
-	]
-	return columns
+	if(records.length > 0){
+		const keys = Object.keys(records[0])
+	
+		const columns = [
+		 	{ field: 'id', headerName: 'ID', width: 90 },
+			{ field: keys[1], headerName: 'First name', width: 150 },
+		  	{ field: keys[2], headerName: 'Last name', width: 150 },
+		  	{ field: keys[3], headerName: 'Contact Number', width: 150 },
+			{ field: keys[4], headerName: 'Membership', width: 130, renderCell: (params) => {
+		      	return (
+		      		<LabelCard isMember={params.row.isMember} />	
+		      	)
+			  } },
+			{ field: 'click-edit', headerName: '', width: 130, sortable: false, renderCell: (params) => {
+		      const onClick = (e) => {
+		      	
+		      };
+		      
+		      	return (
+		      		<Button variant="contained" component={Link} href="/admin/walkin-payment" startIcon={<EditIcon />} >
+			        Confirm
+			      </Button>
+		      	)
+			  }
+	
+			},
+	
+			{ field: 'click-del', headerName: '', width: 120, sortable: false, renderCell: (params) => {
+		      const onClick = (e) => {
+			  
+	
+		      	handleOpen(params.row.id,params.row.firstName + " "+params.row.lastName)
+		      	console.log("clicked")
+		      };
+		      
+		      	return (
+		      		<Button variant="outlined" onClick={onClick} startIcon={<DeleteIcon />} color="error">
+				        Delete
+				    </Button>
+		      	)
+			  }
+	
+			},
+			
+		]
+		return columns
+	}
+	return []
 }
 
-function removeItem(records,setRecords,cid,handleClose){
-	if(records.length > 1){
+function removeItem(records,setRecords,cid,handleClose,setSearchedItems){
+	if(records.length > 0){
 	      		        // const currentRow = params.row;
 	      		        const eq = records.filter((d)=>{
 	      		        	return d.id !== cid
 	      		        })
 	      		        console.log(eq)
 	      		        setRecords(eq)
+	      		        setSearchedItems(eq)
 	      		}
 	 handleClose()
 }

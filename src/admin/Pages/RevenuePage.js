@@ -55,7 +55,7 @@ function ButtonGroup(){
 
 
 function BasicSelect() {
-  const [age, setAge] = React.useState('Daily');
+  const [age, setAge] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value + "");
@@ -68,8 +68,9 @@ function BasicSelect() {
           value={age}
           onChange={handleChange}
           displayEmpty
+          inputProps={{ 'aria-label': 'Without label' }}
         >
-          <MenuItem value={10}>Daily</MenuItem>
+          <MenuItem value="">Daily</MenuItem>
           <MenuItem value={20}>Monthly</MenuItem>
           <MenuItem value={30}>Yearly</MenuItem>
         </Select>
