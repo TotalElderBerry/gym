@@ -27,23 +27,13 @@ export default function UserLogin(){
 	}
 	return(
 		<div className = "my-container">	
-	<div className = "form_part">
+	<div className = "form_part"> 
 	<div className = "form_container">
 			<div>
 				<h1>Login to Your Account</h1>
 			</div>
 			
-			<div>
-				<h3>Login using your social network</h3>
-				<div>
-					<FacebookRoundedIcon/>
-					<GoogleIcon/>
-					<TwitterIcon/>
-				</div>
- 				
-			<div><span>or</span></div>
-			</div>
-
+			
 			<div>
 				 <form>
 					<div className="form-group" style={style}>
@@ -52,15 +42,17 @@ export default function UserLogin(){
 					<div className="form-group" style={style}>
 						<input type = "password" value={pw} placeholder = "Password" className="form-control" onChange={((e)=>setPassword(e.target.value))}></input>
 					</div>
-					<div>
-						<button type="button" className="btn btn-primary" onClick={handleOpen}> Sign In</button>
+					<div style={{textAlign:"right"}}>
+					<a href="url" style={{textAlign:"right",margin: "10px 0"}}>Forgot password?</a>
+					</div>
+					<div style={style}>
+						<button type="button" style={{width: "100%"}} className="btn btn-primary" onClick={handleOpen}> Sign In</button>
 					</div>
 				</form>
 				{
 					isWrongPassword ? <div class="alert alert-danger" role="alert">
 				  Account not found				</div>:<></>
 				}
-				<div>Forgot password? <a href="url">Click Here</a></div>  
 				<div>Logged In as Walked In Guest? <a href="/form">Click Here</a></div>  
 			</div>
 			</div>
