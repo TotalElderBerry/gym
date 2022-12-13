@@ -21,19 +21,36 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import record from '../utils/records.js'
 
+import {useRecords as recordfunction} from '../Controllers/RecordsContextProvider'
+
 export default function MemberView() {
+const getItemss = () => {
+		const temp =contextRecord.filter((p)=>p.isMember===false)
+		const u = JSON.parse(localStorage.getItem('selectedR'))
+		if(u === null) return temp
+		return temp.filter((p) => u.id !== p.id)
+	}
+
+
+	const contextRecord = recordfunction().record
   const classes = useStyles();	
-  const [records,setRecords] = useState(record.filter((p)=>p.isMember === false));
+  const [records,setRecords] = useState(getItemss());
   const [open, setOpen] = useState(false);
   const [currentRow, setCurrentRow] = useState(-1);
   const [selectedRecord, setSelectedRecord] = useState("");
   const [query,setQuery] = useState("")
-  const [searchedItems, setSearchedItems] = useState(record.filter((p)=>p.isMember === false))
+  const [searchedItems, setSearchedItems] = useState(getItemss())
+
+
+
   const handleOpen = (row,name) => {
   	setSelectedRecord(name)
   	setCurrentRow(row)
   	setOpen(true);
   }
+
+
+
   const handleClose = () => setOpen(false);
 
 	function handleChange(e){
@@ -53,6 +70,8 @@ export default function MemberView() {
 		if(res.length === 0) setSearchedItems([])
 	}
 
+
+	
 
   return (
    <div style={{ minWidth: '100%' }}>
@@ -143,6 +162,8 @@ function BasicModal({open, handleOpen, handleClose, name ,records,setRecords,cid
 
 function generateColumns(records,setRecords,handleOpen,handleClose){
 	if(records.length > 0){
+	const {record,setSelectedRecord} = recordfunction()
+	console.log(record)
 		const keys = Object.keys(records[0])
 	
 		const columns = [
@@ -157,11 +178,11 @@ function generateColumns(records,setRecords,handleOpen,handleClose){
 			  } },
 			{ field: 'click-edit', headerName: '', width: 130, sortable: false, renderCell: (params) => {
 		      const onClick = (e) => {
-		      	
+		      	localStorage.setItem('selectedR', JSON.stringify(params.row))
 		      };
 		      
 		      	return (
-		      		<Button variant="contained" component={Link} href="/admin/walkin-payment" startIcon={<EditIcon />} >
+		      		<Button variant="contained" onClick={onClick} component={Link} href="/admin/walkin-payment" startIcon={<EditIcon />} >
 			        Confirm
 			      </Button>
 		      	)
@@ -171,7 +192,7 @@ function generateColumns(records,setRecords,handleOpen,handleClose){
 	
 			{ field: 'click-del', headerName: '', width: 120, sortable: false, renderCell: (params) => {
 		      const onClick = (e) => {
-			  
+			  	console.log(params)
 	
 		      	handleOpen(params.row.id,params.row.firstName + " "+params.row.lastName)
 		      	console.log("clicked")

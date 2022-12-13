@@ -9,13 +9,43 @@ import Divider from '@mui/material/Divider';
 import Link from '@material-ui/core/Link';
 import Toolbar from '@mui/material/Toolbar';
 import Paper from '@mui/material/Paper';
+import {useRecords} from '../Controllers/RecordsContextProvider'
+import {useRecords as recordfunction} from '../Controllers/RecordsContextProvider'
+
 export default function MemberRenewalForm({isMember}) {
+const{setSelectedRecord} = useRecords()
+
+
+  const[cData,setCData] = React.useState({})
+
+
+
   const [num, setNum] = React.useState(0);
   const nums = Array.from(Array(10).keys())
-  console.log(nums)
+  const [t,setT] = React.useState();
+  const [i,setI] = React.useState({})
   const handleChange = (event) => {
     setNum(event.target.value);
   };
+
+    React.useEffect(() => {
+      let items = JSON.parse(localStorage.getItem('selectedR'));
+      const timein = JSON.parse(localStorage.getItem('timein'));
+      // items = {...items,timein: '12:09 am'}
+      setT([timein])
+      setCData(items);
+      setI(items)
+
+      // if(!timein){
+      //   localStorage.setItem('timein', JSON.stringify(items));
+      // }else{
+      //    if (items) {
+      //    setT(old => [...old,items])
+      //   }
+      // }
+     
+
+    }, []);
 
   const textStyle={
     p: 2,
@@ -63,7 +93,7 @@ export default function MemberRenewalForm({isMember}) {
           Full Name 
         </Typography>
         <Typography variant="body2" sx={{color: '#97999e'}}>
-          Brian Lisondra
+          {cData.firstName} {cData.lastName}
         </Typography>
       </Stack>
       </Box>
@@ -130,7 +160,17 @@ export default function MemberRenewalForm({isMember}) {
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
         </Typography>
     </Box>
-    <Button disableElevation component={Link} href="/admin/" sx={{ width: "20%" }} variant="contained">Pay</Button>    
+    <Button onClick={() => {
+      // const temp = t.concat(cData)
+      const temp = JSON.parse(localStorage.getItem('timein'));
+      temp.push(JSON.parse(localStorage.getItem('selectedR')))
+      setT(temp)
+      setTimeout(()=>{
+        console.log(t)
+      },5000)
+
+      localStorage.setItem('timein', JSON.stringify(temp));
+    }} disableElevation component={Link} href="/admin/" sx={{ width: "20%" }} variant="contained">Pay</Button>    
     </Stack>
     </Paper>
 

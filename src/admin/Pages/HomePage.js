@@ -16,8 +16,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Grid from '@mui/material/Grid';
 
 import Link from '@material-ui/core/Link';
-
+import {useRecords} from '../../Controllers/RecordsContextProvider'
 import records from '../../utils/records.js'
+
 function ButtonGroup(){
 	return (
 	    		<TextField id="standard-basic" label="Search" variant="standard" />	
@@ -51,6 +52,8 @@ const buttonArrayQueue = [
 ]
 
 export default function HomePage() {
+console.log(useRecords().record)
+
 	const tableStyle = {
       display: "flex",
       justifyContent: "center",

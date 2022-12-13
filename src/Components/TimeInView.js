@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import { DataGrid } from '@mui/x-data-grid';
 
@@ -16,11 +16,33 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
+import {useRecords} from '../Controllers/RecordsContextProvider'
+
+
 import record from '../utils/records.js'
 
+
 export default function TimeInView() {
+	const {selectedRecord, timeIn} = useRecords()
+	console.log(selectedRecord)
+	const temp = selectedRecord
   const classes = useStyles();	
-  const [records,setRecords] = useState(record.map(obj => ({...obj,timein: '12:09 am'})));
+  const [records,setRecords] = useState(timeIn);
+
+  useEffect(() => {
+
+	  const items = JSON.parse(localStorage.getItem('timein'));
+	  console.log(items)
+	  if (items) {
+	   setRecords(items);
+	  }else{
+	  	const temp = record.filter((r) => r.isMember === true)
+
+	  	localStorage.setItem('timein', JSON.stringify(temp));
+	  	setRecords(temp)
+	  }
+	}, []);
+  // if(temp !== null || temp !== undefined) setRecords(r=> r.push({temp}))
   return (
    <div style={{ minWidth: '100%' }}>
  
@@ -30,10 +52,10 @@ export default function TimeInView() {
       	className={classes.root}
       	disableColumnMenu
         rows={records}
-        getRowId={(row) => row.id}	
+        getRowId={(r) => r.id}	
         columns={generateColumns(records,setRecords)}
-        pageSize={records.length}
-        rowsPerPage={[records.length]}
+        pageSize={15}
+        rowsPerPage={[15]}
       />
     </div>
   );
@@ -50,36 +72,28 @@ function createData(
   return { id, fName, lName, contactNumber, membership };
 }
 
-function createMultipleData(){
-	let data = [];
-	for(let i = 0; i < 15; i++){
-		data.push(createData(i,'Jack', 'Sparrow', '091919191999', 'Monthly Member', '12:09 am'))
-	}
-
-	return data
-}
-
-const rows = createMultipleData()
 
 
 function generateColumns(records,setRecords){
-	const keys = Object.keys(records[0])
-
-	const columns = [
-	 	{ field: 'id', headerName: 'ID', width: 90 },
-		{ field: keys[1], headerName: 'First name', width: 150 },
-	  	{ field: keys[2], headerName: 'Last name', width: 150 },
-	  	{ field: keys[3], headerName: 'Contact Number', width: 150 },
-	  	{ field: keys[4], headerName: 'Membership', width: 130, renderCell: (params) => {
-	      	return (
-	      		<LabelCard isMember={params.row.isMember} />	
-	      	)
-		  } },
-		
-	  	{ field: 'timein', headerName: 'Time In', width: 150 },
-		
-	]
-	return columns
+	if(records.length > 0){
+		const keys = Object.keys(records[0])
+	
+		const columns = [
+		 	{ field: 'id', headerName: 'ID', width: 90 },
+			{ field: keys[1], headerName: 'First name', width: 150 },
+		  	{ field: keys[2], headerName: 'Last name', width: 150 },
+		  	{ field: keys[3], headerName: 'Contact Number', width: 150 },
+		  	{ field: keys[4], headerName: 'Membership', width: 130, renderCell: (params) => {
+		      	return (
+		      		<LabelCard isMember={params.row.isMember} />	
+		      	)
+			  } },
+			
+		  	{ field: 'timein', headerName: 'Time In', width: 150 },
+			
+		]
+		return columns}
+		return []
 }
 
 
