@@ -7,8 +7,20 @@ import Box from '@mui/material/Box';
 
 export default function UserLogin(){
 	  const [open, setOpen] = React.useState(false);
-		  const handleOpen = () => setOpen(true);
-		  const handleClose = () => setOpen(false);
+	  const [isWrongPassword,setIsWrongPassword] = React.useState(false);
+	  const [name,setName] = React.useState("")
+	  const [pw,setPassword] = React.useState("")
+		const handleOpen = () => {
+			if(name === "user" && pw === "user"){
+						setIsWrongPassword(false)
+						setOpen(true);
+						setName("");
+						setPassword("")
+			}else{
+				setIsWrongPassword(true)
+			}
+		}
+		const handleClose = () => setOpen(false);
 
 	const style ={
 		margin: "10px 0"
@@ -35,15 +47,19 @@ export default function UserLogin(){
 			<div>
 				 <form>
 					<div className="form-group" style={style}>
-						<input type = "text" placeholder = "Name" className="form-control" ></input>
+						<input type = "text" value={name} placeholder = "Name" className="form-control" onChange={((e)=>setName(e.target.value))} ></input>
 					</div>
 					<div className="form-group" style={style}>
-						<input type = "password" placeholder = "Password" className="form-control" ></input>
+						<input type = "password" value={pw} placeholder = "Password" className="form-control" onChange={((e)=>setPassword(e.target.value))}></input>
 					</div>
 					<div>
 						<button type="button" className="btn btn-primary" onClick={handleOpen}> Sign In</button>
 					</div>
 				</form>
+				{
+					isWrongPassword ? <div class="alert alert-danger" role="alert">
+				  Account not found				</div>:<></>
+				}
 				<div>Forgot password? <a href="url">Click Here</a></div>  
 				<div>Logged In as Walked In Guest? <a href="/form">Click Here</a></div>  
 			</div>
@@ -53,7 +69,7 @@ export default function UserLogin(){
 	<div className = "sign_up">
 	<h1>Didn't have an account?</h1>
 	<h4>Sign up now</h4>
-	<div><a type = "button" className="btn btn-primary" href="/admin/add-member">Sign Up</a></div>
+	<div><a type = "button" className="btn btn-primary" href="/admin/select">Sign Up</a></div>
 	</div>
 </div>
 	<BasicModal open={open} handleOpen={handleOpen} handleClose={handleClose} />

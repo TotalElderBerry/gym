@@ -43,10 +43,9 @@ function App() {
 
     <Router>
       <Routes>
-        <Route exact path='/login' element={<UserLogin />}></Route>
+        <Route exact path='/' element={<UserLogin />}></Route>
         <Route exact path='/forgot' element={<ForgotPassword />}></Route>
         <Route exact path='/form' element={<UserWalkInFormPage />}></Route>
-        <Route exact path='/' element={<MembershipPlanPage />}></Route>
       </Routes>
     </Router>
 
